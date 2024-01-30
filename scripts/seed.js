@@ -4,8 +4,56 @@ const {
   customers,
   revenue,
   users,
+  arbitros,
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
+
+async function seedArbitros(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    // Create the "arbitros" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS arbitros (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        phone VARCHAR(20),
+        identificacion VARCHAR(255),
+        especialidad_1 VARCHAR(255),
+        categoria_1 VARCHAR(255),
+        especialidad_2 VARCHAR(255),
+        categoria_2 VARCHAR(255),
+        status VARCHAR(50) CHECK (status IN ('habilitado', 'desabilitado')),
+        password TEXT NOT NULL
+      );
+    `;
+
+    console.log(`Created "arbitros" table`);
+
+    // Insert data into the "arbitros" table
+    const insertedArbitros = await Promise.all(
+      arbitros.map(async (arbitro) => {
+        const hashedPassword = await bcrypt.hash(arbitro.password, 10);
+        return client.sql`
+          INSERT INTO arbitros (name, email, phone, identificacion, especialidad_1, categoria_1, especialidad_2, categoria_2, status, password)
+          VALUES (${arbitro.name}, ${arbitro.email}, ${arbitro.phone}, ${arbitro.identificacion}, ${arbitro.especialidad_1}, ${arbitro.categoria_1}, ${arbitro.especialidad_2}, ${arbitro.categoria_2}, ${arbitro.status}, ${hashedPassword})
+          ON CONFLICT (email) DO NOTHING;
+        `;
+      }),
+    );
+
+    console.log(`Seeded ${insertedArbitros.length} arbitros`);
+
+    return {
+      createTable,
+      arbitros: insertedArbitros,
+    };
+  } catch (error) {
+    console.error('Error seeding arbitros:', error);
+    throw error;
+  }
+}
+
 
 async function seedUsers(client) {
   try {
@@ -167,6 +215,7 @@ async function main() {
   await seedCustomers(client);
   await seedInvoices(client);
   await seedRevenue(client);
+  await seedArbitros(client);
 
   await client.end();
 }

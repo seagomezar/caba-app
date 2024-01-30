@@ -55,6 +55,21 @@ export type InvoicesTable = {
   status: 'pending' | 'paid';
 };
 
+export type ArbitrosTable = {
+  id: string;
+  name: string;
+  email: string;
+  image_url: string;
+  phone: string;
+  identificacion: string;
+  especialidad_1: string;
+  categoria_1: string;
+  especialidad_2: string;
+  categoria_2: string;
+  status: 'desabilitado' | 'habilitado';
+  password: string;
+};
+
 export type CustomersTableType = {
   id: string;
   name: string;
@@ -85,4 +100,20 @@ export type InvoiceForm = {
   customer_id: string;
   amount: number;
   status: 'pending' | 'paid';
+};
+
+
+export type ArbitroForm = {
+  id: string;
+  name: string;
+  email: string;
+  image_url: string;
+  phone: string;
+  identificacion: string;
+  especialidad_1: string;
+  categoria_1: string;
+  especialidad_2: string;
+  categoria_2: string;
+  status: 'desabilitado' | 'habilitado';
+  password: string;
 };

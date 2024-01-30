@@ -9,6 +9,22 @@ const users = [
   },
 ];
 
+const arbitros = [
+  {
+    id: '3958dc9e-712f-4377-85e9-f3c4b6a6442a',
+    name: 'Arbitro Uno',
+    email: 'arbitrouno@example.com',
+    phone: '1234567890',
+    identificacion: 'ID123456',
+    especialidad_1: 'Especialidad1A',
+    categoria_1: 'Categoria1A',
+    especialidad_2: 'Especialidad2A',
+    categoria_2: 'Categoria2A',
+    status: 'habilitado',
+    password: 'password1',
+  }
+]
+
 const customers = [
   {
     id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
@@ -185,4 +201,5 @@ module.exports = {
   customers,
   invoices,
   revenue,
+  arbitros
 };

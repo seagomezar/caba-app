@@ -1,5 +1,6 @@
 {
     "conventionalCommits.scopes": [
-        "seeding"
+        "seeding",
+        "Arbitros"
     ]
 }
