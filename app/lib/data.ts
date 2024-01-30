@@ -4,9 +4,11 @@ import {
   CustomersTableType,
   InvoiceForm,
   InvoicesTable,
+  ArbitrosTable,
   LatestInvoiceRaw,
   User,
   Revenue,
+  ArbitroForm,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -127,6 +129,46 @@ export async function fetchFilteredInvoices(
   }
 }
 
+export async function fetchFilteredArbitros(
+  query: string,
+  currentPage: number,
+) {
+  noStore();
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const arbitros = await sql<ArbitrosTable>`
+      SELECT
+        arbitros.id,
+        arbitros.name,
+        arbitros.email,
+        arbitros.status,
+        arbitros.phone,
+        arbitros.identificacion,
+        arbitros.especialidad_1,
+        arbitros.categoria_1,
+        arbitros.especialidad_2,
+        arbitros.categoria_2,
+        arbitros.password
+      FROM arbitros
+      WHERE
+        arbitros.name ILIKE ${`%${query}%`} OR
+        arbitros.email ILIKE ${`%${query}%`} OR
+        arbitros.especialidad_1 ILIKE ${`%${query}%`} OR
+        arbitros.especialidad_2 ILIKE ${`%${query}%`} OR
+        arbitros.categoria_1 ILIKE ${`%${query}%`} OR
+        arbitros.categoria_2 ILIKE ${`%${query}%`}
+      ORDER BY arbitros.name DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
+
+    return arbitros.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch Arbitros.');
+  }
+}
+
 export async function fetchInvoicesPages(query: string) {
   noStore();
   try {
@@ -146,6 +188,28 @@ export async function fetchInvoicesPages(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of invoices.');
+  }
+}
+
+export async function fetchArbitrosPages(query: string) {
+  noStore();
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM arbitros
+    WHERE
+      arbitros.name ILIKE ${`%${query}%`} OR
+      arbitros.email ILIKE ${`%${query}%`} OR
+      arbitros.especialidad_1 ILIKE ${`%${query}%`} OR
+      arbitros.especialidad_2 ILIKE ${`%${query}%`} OR
+      arbitros.categoria_1 ILIKE ${`%${query}%`} OR
+      arbitros.categoria_2 ILIKE ${`%${query}%`}
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of arbitros.');
   }
 }
 
@@ -172,6 +236,38 @@ export async function fetchInvoiceById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoice.');
+  }
+}
+
+export async function fetchArbitroById(id: string) {
+  noStore();
+  try {
+    const data = await sql<ArbitroForm>`
+      SELECT
+      arbitros.id,
+      arbitros.image_url
+      arbitros.name,
+      arbitros.email,
+      arbitros.status,
+      arbitros.phone,
+      arbitros.identificacion,
+      arbitros.especialidad_1,
+      arbitros.categoria_1,
+      arbitros.especialidad_2,
+      arbitros.categoria_2,
+      arbitros.password
+      FROM arbitros
+      WHERE arbitros.id = ${id};
+    `;
+
+    const arbitro = data.rows.map((arbitro) => ({
+      ...arbitro
+    }));
+
+    return arbitro[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch Arbitro.');
   }
 }
 
