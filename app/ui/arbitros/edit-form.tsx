@@ -1,7 +1,7 @@
 'use client';
 
 import { ArbitroForm } from '@/app/lib/definitions'; // Asegúrate de definir esta estructura
-import { UserCircleIcon, AtSymbolIcon, PhoneIcon, LockClosedIcon } from '@heroicons/react/24/outline';
+import { UserCircleIcon, AtSymbolIcon, PhoneIcon, LockClosedIcon, IdentificationIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateArbitro } from '@/app/lib/arbitros/actions'; // Asegúrate de tener esta acción definida
@@ -34,6 +34,14 @@ export default function EditArbitroForm({
                         />
                         <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                     </div>
+                    <div id="name-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.name &&
+                            state.errors.name.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
+                    </div>
                 </div>
 
                 {/* Email */}
@@ -50,6 +58,14 @@ export default function EditArbitroForm({
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                         />
                         <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                    </div>
+                    <div id="email-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.email &&
+                            state.errors.email.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
                     </div>
                 </div>
 
@@ -68,6 +84,14 @@ export default function EditArbitroForm({
                         />
                         <PhoneIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                     </div>
+                    <div id="phone-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.phone &&
+                            state.errors.phone.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
+                    </div>
                 </div>
 
                 {/* Password (Considera si es necesario editar este campo y cómo manejarlo de manera segura) */}
@@ -80,10 +104,40 @@ export default function EditArbitroForm({
                             id="password"
                             name="password"
                             type="password"
-                            defaultValue={arbitro.password}
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                         />
                         <LockClosedIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                    </div>
+                    <div id="password-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.password &&
+                            state.errors.password.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
+                    </div>
+                </div>
+                {/* Identificacion */}
+                <div className="mb-4">
+                    <label htmlFor="identificacion" className="block text-sm font-medium mb-2">ID</label>
+                    <div className="relative">
+                        <input
+                            id="identificacion"
+                            name="identificacion"
+                            type="text"
+                            className="block w-full rounded-md border-gray-200 py-2 pl-10 text-sm placeholder:text-gray-500"
+                            placeholder="Identification number"
+                            defaultValue={arbitro.identificacion}
+                        />
+                        <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                    </div>
+                    <div id="identificacion-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.identificacion &&
+                            state.errors.identificacion.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
                     </div>
                 </div>
 
@@ -104,6 +158,14 @@ export default function EditArbitroForm({
                         <option value="Especialidad1Opcion2">Especialidad 1 Opción 2</option>
                         {/* Añadir más opciones según sea necesario */}
                     </select>
+                    <div id="especialidad_1-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.especialidad_1 &&
+                            state.errors.especialidad_1.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
+                    </div>
                 </div>
 
                 {/* Categoria 1 */}
@@ -123,6 +185,14 @@ export default function EditArbitroForm({
                         <option value="Categoria1Opcion2">Categoría 1 Opción 2</option>
                         {/* Añadir más opciones según sea necesario */}
                     </select>
+                    <div id="categoria_1-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.categoria_1 &&
+                            state.errors.categoria_1.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
+                    </div>
                 </div>
 
                 {/* Especialidad 2 */}
@@ -142,6 +212,14 @@ export default function EditArbitroForm({
                         <option value="Especialidad2Opcion2">Especialidad 2 Opción 2</option>
                         {/* Añadir más opciones según sea necesario */}
                     </select>
+                    <div id="especialidad_2-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.especialidad_2 &&
+                            state.errors.especialidad_2.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
+                    </div>
                 </div>
 
                 {/* Categoria 2 */}
@@ -161,8 +239,63 @@ export default function EditArbitroForm({
                         <option value="Categoria2Opcion2">Categoría 2 Opción 2</option>
                         {/* Añadir más opciones según sea necesario */}
                     </select>
+                    <div id="categoria_2-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.categoria_2 &&
+                            state.errors.categoria_2.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
+                    </div>
                 </div>
-
+                {/* Estado */}
+                <fieldset aria-describedby="status-error">
+                    <legend className="mb-2 block text-sm font-medium">
+                        Estado
+                    </legend>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium mb-2">Status</label>
+                        <div className="flex gap-4">
+                            <div className="flex items-center">
+                                <input
+                                    id="habilitado"
+                                    name="status"
+                                    type="radio"
+                                    value="habilitado"
+                                    defaultChecked={arbitro.status === 'habilitado'}
+                                    className="h-4 w-4 cursor-pointer text-gray-600 focus:ring-2"
+                                />
+                                <label htmlFor="habilitado" className="ml-2 text-sm">Habilitado</label>
+                            </div>
+                            <div className="flex items-center">
+                                <input
+                                    id="desabilitado"
+                                    name="status"
+                                    type="radio"
+                                    value="desabilitado"
+                                    defaultChecked={arbitro.status === 'desabilitado'}
+                                    className="h-4 w-4 cursor-pointer text-gray-600 focus:ring-2"
+                                />
+                                <label htmlFor="desabilitado" className="ml-2 text-sm">Desabilitado</label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div id="status-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.status &&
+                        state.errors.status.map((error: string) => (
+                            <p className="mt-2 text-sm text-red-500" key={error}>
+                                {error}
+                            </p>
+                        ))}
+                </div>
+                <div id="status-error" aria-live="polite" aria-atomic="true">
+                    {state.message &&
+                        <p className="mt-2 text-sm text-red-500" key={state.message}>
+                            {state.message}
+                        </p>
+                    }
+                </div>
 
             </div>
 

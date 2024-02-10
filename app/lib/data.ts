@@ -245,7 +245,6 @@ export async function fetchArbitroById(id: string) {
     const data = await sql<ArbitroForm>`
       SELECT
       arbitros.id,
-      arbitros.image_url
       arbitros.name,
       arbitros.email,
       arbitros.status,
@@ -263,7 +262,7 @@ export async function fetchArbitroById(id: string) {
     const arbitro = data.rows.map((arbitro) => ({
       ...arbitro
     }));
-
+    console.log(arbitro);
     return arbitro[0];
   } catch (error) {
     console.error('Database Error:', error);

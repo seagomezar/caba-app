@@ -25,13 +25,14 @@ export default async function InvoicesTable({
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
+                      {/*
                       <Image
                         src={arbitro.image_url}
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}
                         alt={`${arbitro.name}'s profile picture`}
-                      />
+                      />*/}
                       <p>{arbitro.name}</p>
                     </div>
                     <p className="text-sm text-gray-500">{arbitro.email}</p>
@@ -87,6 +88,7 @@ export default async function InvoicesTable({
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
+                      {/** 
                       <Image
                         src={arbitro.image_url}
                         className="rounded-full"
@@ -94,6 +96,7 @@ export default async function InvoicesTable({
                         height={28}
                         alt={`${arbitro.name}'s profile picture`}
                       />
+                      */}
                       <p>{arbitro.name}</p>
                     </div>
                   </td>
@@ -107,9 +110,7 @@ export default async function InvoicesTable({
                     {arbitro.identificacion}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {arbitro.especialidad_1} - {arbitro.categoria_1}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                    {arbitro.especialidad_1} - {arbitro.categoria_1}<br />
                     {arbitro.especialidad_2} - {arbitro.categoria_2}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">

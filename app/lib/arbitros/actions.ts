@@ -100,6 +100,8 @@ const UpdateArbitro = ArbitroSchema.omit({ id: true });
 
 export async function updateArbitro(id: string, prevState: State, formData: FormData) {
 
+    console.log("AQUI", id, prevState, formData)
+
     // Validate form data using Zod
     const validatedFields = UpdateArbitro.safeParse({
         name: formData.get('name'),

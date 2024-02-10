@@ -12,16 +12,16 @@ export default function ArbitroStatus({ status }: { status: string }) {
         },
       )}
     >
-      {status === 'suspendido' ? (
+      {status === 'desabilitado' ? (
         <>
-          Pending
+          Desabilitado
           <ClockIcon className="ml-1 w-4 text-gray-500" />
         </>
       ) : null}
-      {status === 'activo' ? (
+      {status === 'habilitado' ? (
         <>
-          Paid
-          <CheckIcon className="ml-1 w-4 text-white" />
+          Habilitado
+          <CheckIcon className="ml-1 w-4 text-gray-500" />
         </>
       ) : null}
     </span>
